@@ -9,9 +9,10 @@ import ProductRating from "@/components/single-product/ProductRating";
 export default async function SingleProductPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const product = await fetchSingleProduct(params.id);
+  const { id } = await params;
+  const product = await fetchSingleProduct(id);
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -36,15 +37,15 @@ export default async function SingleProductPage({
         <div>
           <div className="flex gap-x-8 items-center">
             <h1 className="capitalize text-3xl font-bold">{name}</h1>
-            <FavoriteToggleButton productId={params.id} />
+            <FavoriteToggleButton productId={product.id} />
           </div>
-          <ProductRating productId={params.id} />
+          <ProductRating productId={product.id} />
           <h4 className="text-xl mt-2">{company}</h4>
           <p className="mt-3 text-md bg-muted inline-block p-2 rounded">
             {dollarAmount}
           </p>
           <p className="mt-6 leading-8 text-muted-foreground">{description}</p>
-          <AddToCart productId={params.id} />
+          <AddToCart productId={product.id} />
         </div>
         {/* Image */}
       </div>
