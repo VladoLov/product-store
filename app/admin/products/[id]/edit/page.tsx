@@ -15,9 +15,10 @@ import ImageInputContainer from "@/components/form/ImageInputContainer";
 export default async function EditProductPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
   const product = await fetchAdminProductsDetails(id);
   const { name, company, description, featured, price } = product;
   return (
