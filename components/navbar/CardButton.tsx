@@ -2,10 +2,11 @@ import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { LucideShoppingCart } from "lucide-react";
+import { fetchCartItems } from "@/utils/actions";
 
-export default function CardButton() {
+export default async function CardButton() {
   /// temp
-  const numItemsInCart = 8;
+  const numItemsInCart = await fetchCartItems();
   return (
     <Button
       asChild

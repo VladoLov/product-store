@@ -8,18 +8,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { fetchAdminOrders } from "@/utils/actions";
+import SectionTitle from "@/components/global/SectionTitle";
+import { fetchUserOrders } from "@/utils/actions";
 import { formatCurrency, formatDate } from "@/utils/format";
-export default async function SalesPage() {
-  const orders = await fetchAdminOrders();
 
+export default async function OrdersPage() {
+  const orders = await fetchUserOrders();
   return (
-    <div>
+    <>
+      <SectionTitle text="Your Orders" />
       <Table>
-        <TableCaption>Total orders : {orders.length}</TableCaption>
+        <TableCaption>Total Orders: {orders.length}</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Email</TableHead>
             <TableHead>Products</TableHead>
             <TableHead>Order Total</TableHead>
             <TableHead>Tax</TableHead>
@@ -29,19 +30,10 @@ export default async function SalesPage() {
         </TableHeader>
         <TableBody>
           {orders.map((order) => {
-            const {
-              id,
-              products,
-              orderTotal,
-              tax,
-              shipping,
-              createdAt,
-              email,
-            } = order;
-
+            const { id, products, orderTotal, tax, shipping, createdAt } =
+              order;
             return (
               <TableRow key={order.id}>
-                <TableCell>{email}</TableCell>
                 <TableCell>{products}</TableCell>
                 <TableCell>{formatCurrency(orderTotal)}</TableCell>
                 <TableCell>{formatCurrency(tax)}</TableCell>
@@ -52,6 +44,6 @@ export default async function SalesPage() {
           })}
         </TableBody>
       </Table>
-    </div>
+    </>
   );
 }
